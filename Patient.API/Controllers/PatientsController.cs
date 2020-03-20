@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.Infrastructure.Persistence;
 using API.Model;
@@ -20,6 +21,12 @@ namespace API.Controllers
                 throw new ArgumentNullException(nameof(context));
             _context = context;
             _service = new PatientService(_context);
+        }
+
+        [HttpGet]
+        public async Task<List<Patient>> GetAllAsync()
+        {
+            return await _service.GetAllPatientsAsync();
         }
 
         [HttpPost]

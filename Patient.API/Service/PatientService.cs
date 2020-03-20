@@ -1,9 +1,7 @@
 ﻿using API.Infrastructure.Persistence;
 using API.Model;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace API.Service
@@ -16,15 +14,6 @@ namespace API.Service
         {
             _context = context;
         }
-
-        [HttpGet]
-        public async Task<List<Patient>> GetAllAsync()
-        {
-            var products = await _context.Patients.ToListAsync();
-            return products;
-        }
-
-        [HttpPost]
         public async Task<int> CreatePatientAsync(Patient patient)
         {
             var item = new Patient
@@ -36,6 +25,12 @@ namespace API.Service
             _context.Patients.Add(item);
             await _context.SaveChangesAsync();
             return item.Id;
+        }
+
+        public async Task<List<Patient>> GetAllPatientsAsync()
+        {
+            var products = await _context.Patients.ToListAsync();
+            return products;
         }
     }
 }
