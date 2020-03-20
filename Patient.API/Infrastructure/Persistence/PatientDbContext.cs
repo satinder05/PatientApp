@@ -14,11 +14,6 @@ namespace API.Infrastructure.Persistence
 
         public virtual DbSet<Patient> Patients { get; set; }
 
-        //public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
-        //{
-        //    return base.SaveChangesAsync(cancellationToken);
-        //}
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 

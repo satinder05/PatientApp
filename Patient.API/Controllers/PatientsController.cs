@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using API.Infrastructure.Persistence;
 using API.Model;
 using API.Service;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -29,7 +25,7 @@ namespace API.Controllers
         [HttpPost]
         public async Task CreateAsync([FromBody]Patient patient)
         {
-            await _service.CreatePatientAsync(patient, CancellationToken.None);
+            await _service.CreatePatientAsync(patient);
         }
     }
 }

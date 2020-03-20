@@ -1,9 +1,8 @@
 ﻿using API.Infrastructure.Persistence;
 using API.Model;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,7 +16,16 @@ namespace API.Service
         {
             _context = context;
         }
-        public async Task<int> CreatePatientAsync(Patient patient, CancellationToken cancellationToken)
+
+        [HttpGet]
+        public async Task<List<Patient>> GetAllAsync()
+        {
+            var products = await _context.Patients.ToListAsync();
+            return products;
+        }
+
+        [HttpPost]
+        public async Task<int> CreatePatientAsync(Patient patient)
         {
             var item = new Patient
             {
@@ -26,7 +34,7 @@ namespace API.Service
                 Mobile = patient.Mobile
             };
             _context.Patients.Add(item);
-            await _context.SaveChangesAsync(cancellationToken);
+            await _context.SaveChangesAsync();
             return item.Id;
         }
     }
