@@ -14,7 +14,7 @@ namespace API.Service
         {
             _context = context;
         }
-        public async Task<int> CreatePatientAsync(Patient patient)
+        public async Task<Patient> CreatePatientAsync(Patient patient)
         {
             var item = new Patient
             {
@@ -24,7 +24,7 @@ namespace API.Service
             };
             _context.Patients.Add(item);
             await _context.SaveChangesAsync();
-            return item.Id;
+            return item;
         }
 
         public async Task<List<Patient>> GetAllPatientsAsync()

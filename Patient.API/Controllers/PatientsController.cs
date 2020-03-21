@@ -30,9 +30,9 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task CreateAsync([FromBody]Patient patient)
+        public async Task<Patient> CreateAsync([FromBody]Patient patient)
         {
-            await _service.CreatePatientAsync(patient);
+            return await _service.CreatePatientAsync(patient);
         }
     }
 }
