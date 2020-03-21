@@ -14,6 +14,7 @@ export class PatientHome extends Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.populatePatientList = this.populatePatientList.bind(this);
     }
 
     componentDidMount() {
@@ -36,7 +37,6 @@ export class PatientHome extends Component {
             email: '',
             mobile: ''
         });
-
         this.populatePatientList();
         event.preventDefault();
     }
@@ -64,8 +64,8 @@ export class PatientHome extends Component {
         );
     }
 
-    createPatient(patient) {
-        fetch('http://localhost:62177/api/patients', {
+    async createPatient(patient) {
+        await fetch('http://localhost:62177/api/patients', {
             method: 'POST',
             headers: {
                 "Content-type": "application/json charset=utf-8"
@@ -79,6 +79,22 @@ export class PatientHome extends Component {
         const data = await response.json();
         this.setState({ patients: data, isLoaded: true });
 
+        //fetch("http://localhost:62177/api/patients")
+        //    .then(response => response.json())
+        //    .then(
+        //        (result) => {
+        //            this.setState({
+        //                isLoaded: true,
+        //                patients: result
+        //            });
+        //        },
+        //        (error) => {
+        //            this.setState({
+        //                isLoaded: false,
+        //            });
+        //        }
+        //    )
+                
     }
     
 }
