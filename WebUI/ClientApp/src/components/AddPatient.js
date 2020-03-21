@@ -1,6 +1,7 @@
 ﻿import React, { Component } from 'react';
+import NewPatient from './NewPatient';
 
-export class AddPatient extends Component {
+class AddPatient extends Component {
     constructor(props) {
         super(props);
         this.state = { isAddPatient: false };
@@ -15,7 +16,7 @@ export class AddPatient extends Component {
 
     render() {
         let content = this.state.isAddPatient
-            ? <div><p>Add Patient control</p></div>
+            ? <NewPatient />
             :<div><button className="btn btn-primary" onClick={this.enableAddPatient}>Add Patient</button></div>
         return (
             content

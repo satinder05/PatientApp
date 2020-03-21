@@ -6,44 +6,34 @@ export class FetchPatients extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            error: null,
             isLoaded: false,
             patients: []
         };
     }
 
     componentDidMount() {
-        fetch("http://localhost:62177/api/patients")
-            .then(response => response.json())
-            .then(
-                (result) => {
-                    this.setState({
-                        isLoaded: true,
-                        patients: result
-                    });
-                },
-                (error) => {
-                    this.setState({
-                        isLoaded: true,
-                        error
-                    });
-                }
-            )
+        this.populatePatientList();
     }
 
     render() {
         let contents = !this.state.isLoaded
             ? <p><em>Loading...</em></p>
             : <Patient patients={this.state.patients} />;
-                
+
         return (
             <div>
+                <h3 id="tabelLabel" >Patient List</h3>
+                {contents}
                 <div>
                     <AddPatient />
                 </div>
-                <h3 id="tabelLabel" >Patient List</h3>
-                {contents}
             </div>
         );
+    }
+    async populatePatientList() {
+        const response = await fetch('http://localhost:62177/api/patients');
+        const data = await response.json();
+        this.setState({ patients: data, isLoaded: true });
+
     }
 }

@@ -4,7 +4,7 @@ export class Patient extends Component {
 
     render() {
         return (
-            <table className='table table-striped' aria-labelledby="tabelLabel">
+            <table className='table table-striped' aria-labelledby="tabPatientList">
                 <thead>
                     <tr>
                         <th>Patient Id</th>
