@@ -8,6 +8,8 @@ export class PatientHome extends Component {
             name: '',
             email: '',
             mobile: '',
+            emailError : '',
+            mobileError : '',
             isLoaded: false,
             patients: []
         };
@@ -25,22 +27,22 @@ export class PatientHome extends Component {
         this.setState({ [event.target.name]: event.target.value });
     }
 
-    handleSubmit(event) {
-        const newPatient = {
-            name: this.state.name,
-            email : this.state.email,
-            mobile : this.state.mobile
-        };        
-        this.createPatient(newPatient);
-        this.setState({
-            name: '',
-            email: '',
-            mobile: ''
-        });
-        event.preventDefault();
-    }
-        
+    
 
+    handleSubmit(event) {
+        event.preventDefault();
+        const isValid = this.validate();
+        if (isValid) {
+            const newPatient = {
+                name: this.state.name,
+                email: this.state.email,
+                mobile: this.state.mobile
+            };
+            this.createPatient(newPatient);
+            this.clearState();
+        }
+    }        
+    
     render() {
         let contents = !this.state.isLoaded
             ? <p><em>Loading...</em></p>
@@ -52,7 +54,9 @@ export class PatientHome extends Component {
                     <div className="form-group">
                         <input type="text" name="name" placeholder="Patient Name" value={this.state.name} onChange={this.handleChange} required />
                         <input type="text" name="email" placeholder="Email" value={this.state.email} onChange={this.handleChange} />
+                        <span style={{ fontSize: 14, color: "red" }}>{this.state.emailError}</span>
                         <input type="text" name="mobile" placeholder="Mobile" value={this.state.mobile} onChange={this.handleChange} />
+                        <span style={{ fontSize: 14, color: "red" }}>{this.state.mobileError}</span>
                         <input type="submit" value="Submit" />
                     </div>
                 </form>
@@ -79,6 +83,35 @@ export class PatientHome extends Component {
         const response = await fetch('http://localhost:62177/api/patients');
         const data = await response.json();
         this.setState({ patients: data, isLoaded: true });
+    }
+
+    validate() {
+
+        let emailError = "";
+        let mobileError = "";
+
+        if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.state.email)) {
+            emailError = "Invalid Email";
+        }
+        let mobilePattern = /^0[0-8]\d{8}$/g;
+        if (!mobilePattern.test(this.state.mobile)) {
+            mobileError = "Add valid mobile starting with 0"
+        }
+        if (emailError || mobileError) {
+            this.setState({ emailError, mobileError });
+            return false;
+        }
+        return true;
+    }
+
+    clearState() {
+        this.setState({
+            name: '',
+            email: '',
+            mobile: '',
+            emailError: '',
+            mobileError: ''
+        });
     }
     
 }
